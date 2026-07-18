@@ -1,0 +1,168 @@
+@import "tailwindcss";
+
+:root {
+  --cream: #fbf7f0;
+  --paper: #fffdf9;
+  --ink: #352d2d;
+  --muted: #706667;
+  --berry: #9d4660;
+  --berry-dark: #7f354e;
+  --berry-soft: #f5e5e8;
+  --sage: #67806f;
+  --sage-soft: #e7eee8;
+  --gold: #d7a84b;
+}
+
+@theme inline {
+  --color-cream: var(--cream);
+  --color-paper: var(--paper);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-berry: var(--berry);
+  --color-berry-dark: var(--berry-dark);
+  --color-berry-soft: var(--berry-soft);
+  --color-sage: var(--sage);
+  --color-sage-soft: var(--sage-soft);
+  --color-gold: var(--gold);
+  --font-sans: "Aptos", "Segoe UI", Arial, sans-serif;
+  --font-display: Georgia, "Times New Roman", serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--cream);
+}
+
+body {
+  margin: 0;
+  background:
+    radial-gradient(circle at 8% 8%, rgb(245 229 232 / 70%), transparent 28rem),
+    linear-gradient(145deg, var(--cream), #f8f1e7);
+  color: var(--ink);
+  font-family: "Aptos", "Segoe UI", Arial, sans-serif;
+}
+
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.font-display {
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+.brand-mark {
+  display: grid;
+  width: 4rem;
+  height: 4rem;
+  place-items: center;
+  border-radius: 1.25rem;
+  background: var(--berry);
+  box-shadow: 0 12px 30px rgb(126 52 78 / 22%);
+  color: white;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 2rem;
+  font-weight: 600;
+  transform: rotate(-4deg);
+}
+
+.brand-mark span {
+  transform: rotate(4deg);
+}
+
+.sun-glow {
+  position: absolute;
+  top: -7rem;
+  right: -7rem;
+  width: 24rem;
+  height: 24rem;
+  border-radius: 999px;
+  background: rgb(215 168 75 / 12%);
+}
+
+.role-card {
+  display: flex;
+  min-height: 9rem;
+  align-items: center;
+  gap: 1rem;
+  border: 1px solid rgb(53 45 45 / 9%);
+  border-radius: 1.5rem;
+  background: rgb(255 253 249 / 92%);
+  padding: 1.5rem;
+  box-shadow: 0 12px 38px rgb(75 52 46 / 8%);
+  transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+}
+
+.role-card:hover {
+  border-color: rgb(157 70 96 / 35%);
+  box-shadow: 0 16px 44px rgb(75 52 46 / 13%);
+  transform: translateY(-2px);
+}
+
+.role-card:focus-visible,
+.back-link:focus-visible {
+  outline: 3px solid rgb(157 70 96 / 35%);
+  outline-offset: 4px;
+}
+
+.role-icon {
+  display: grid;
+  width: 3.75rem;
+  height: 3.75rem;
+  flex: none;
+  place-items: center;
+  border-radius: 1.1rem;
+  background: var(--berry-soft);
+  color: var(--berry);
+}
+
+.portal-shell {
+  min-height: 100vh;
+  padding: 1.25rem;
+}
+
+.portal-panel {
+  margin: 0 auto;
+  max-width: 72rem;
+  overflow: hidden;
+  border: 1px solid rgb(53 45 45 / 8%);
+  border-radius: 1.75rem;
+  background: rgb(255 253 249 / 88%);
+  box-shadow: 0 16px 60px rgb(75 52 46 / 9%);
+}
+
+.portal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  border-bottom: 1px solid rgb(53 45 45 / 8%);
+  padding: 1.25rem 1.5rem;
+}
+
+.back-link {
+  border-radius: 0.75rem;
+  color: var(--berry-dark);
+  font-weight: 700;
+}
+
+@media (min-width: 640px) {
+  .portal-shell {
+    padding: 2rem;
+  }
+
+  .portal-header {
+    padding: 1.5rem 2rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
