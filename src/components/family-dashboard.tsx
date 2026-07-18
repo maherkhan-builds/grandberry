@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { FamilyCorner } from "@/components/family-corner";
 
 type CheckInStatus = "completed" | "not-yet" | "missed";
 
@@ -105,6 +106,8 @@ export function FamilyDashboard() {
               ))}
             </div>
           </section>
+
+          <FamilyCorner />
 
           <section className="family-summary-grid" aria-label="Today’s check-in overview">
             <article className={`status-card status-${status}`}>

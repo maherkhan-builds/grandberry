@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SeniorFamilyCorner } from "@/components/senior-family-corner";
 
 export default function SeniorPage() {
   return (
@@ -29,6 +30,8 @@ export default function SeniorPage() {
 
           <p className="mt-5 text-base text-muted">About 2 minutes · 6 simple questions</p>
         </section>
+
+        <SeniorFamilyCorner />
       </div>
     </main>
   );
