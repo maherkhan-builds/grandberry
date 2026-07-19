@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="500" viewBox="0 0 1200 500" role="img" aria-labelledby="title desc">
+  <title id="title">Grandberry — Every day, a little more connected</title>
+  <desc id="desc">A warm berry, cream, sage, and gold banner with a Grandberry monogram and a calm animated connection line.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fffdf9"/><stop offset=".48" stop-color="#f5e5e8"/><stop offset="1" stop-color="#e7eee8"/>
+    </linearGradient>
+    <linearGradient id="berry" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#b85b77"/><stop offset="1" stop-color="#7f354e"/>
+    </linearGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="16" stdDeviation="18" flood-color="#4b342e" flood-opacity=".16"/></filter>
+    <style>
+      .pulse{animation:pulse 4s ease-in-out infinite;transform-origin:center}.drift{animation:drift 7s ease-in-out infinite}.line{stroke-dasharray:12 14;animation:flow 8s linear infinite}.tag{animation:tag 6s ease-in-out infinite}
+      @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.035)}}
+      @keyframes drift{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+      @keyframes flow{to{stroke-dashoffset:-208}}
+      @keyframes tag{0%,100%{opacity:.72}50%{opacity:1}}
+      @media (prefers-reduced-motion:reduce){.pulse,.drift,.line,.tag{animation:none}}
+    </style>
+  </defs>
+  <rect width="1200" height="500" rx="40" fill="url(#bg)"/>
+  <circle cx="98" cy="82" r="112" fill="#d7a84b" opacity=".12"/><circle cx="1110" cy="420" r="150" fill="#9d4660" opacity=".08"/>
+  <path class="line" d="M175 352 C360 262 420 408 604 318 S904 232 1060 305" fill="none" stroke="#9d4660" stroke-width="5" stroke-linecap="round" opacity=".35"/>
+  <g class="drift" opacity=".9"><circle cx="174" cy="352" r="13" fill="#d7a84b"/><circle cx="1060" cy="305" r="13" fill="#67806f"/></g>
+  <g class="pulse" filter="url(#shadow)">
+    <rect x="520" y="60" width="160" height="160" rx="46" fill="url(#berry)" transform="rotate(-4 600 140)"/>
+    <text x="600" y="168" text-anchor="middle" font-family="Georgia,serif" font-size="82" font-weight="700" fill="#fff">G</text>
+  </g>
+  <text x="600" y="294" text-anchor="middle" font-family="Georgia,serif" font-size="72" font-weight="700" fill="#352d2d">Grandberry</text>
+  <text class="tag" x="600" y="346" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="700" fill="#7f354e">Every day, a little more connected.</text>
+  <g transform="translate(376 390)">
+    <rect width="448" height="54" rx="27" fill="#fff" opacity=".82"/>
+    <text x="224" y="35" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="18" font-weight="700" fill="#405c49">check in  ·  share love  ·  keep stories close</text>
+  </g>
+</svg>

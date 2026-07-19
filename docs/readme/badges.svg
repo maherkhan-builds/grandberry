@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="126" viewBox="0 0 1120 126" role="img" aria-labelledby="title desc">
+  <title id="title">Grandberry project badges</title><desc id="desc">OpenAI Build Week 2026, Built with Codex, Next.js 16.2.10, TypeScript, Accessibility focused, and Temporary demo data.</desc>
+  <rect width="1120" height="126" rx="28" fill="#fffdf9"/>
+  <g font-family="Segoe UI,Arial,sans-serif" font-size="17" font-weight="800" text-anchor="middle">
+    <g transform="translate(18 18)"><rect width="252" height="40" rx="20" fill="#9d4660"/><text x="126" y="26" fill="#fff">✦ OpenAI Build Week 2026</text></g>
+    <g transform="translate(284 18)"><rect width="190" height="40" rx="20" fill="#67806f"/><text x="95" y="26" fill="#fff">Built with Codex</text></g>
+    <g transform="translate(488 18)"><rect width="194" height="40" rx="20" fill="#352d2d"/><text x="97" y="26" fill="#fff">Next.js 16.2.10</text></g>
+    <g transform="translate(696 18)"><rect width="166" height="40" rx="20" fill="#d7a84b"/><text x="83" y="26" fill="#352d2d">TypeScript</text></g>
+    <g transform="translate(876 18)"><rect width="226" height="40" rx="20" fill="#7f354e"/><text x="113" y="26" fill="#fff">Senior-friendly demo</text></g>
+    <g transform="translate(245 72)"><rect width="286" height="40" rx="20" fill="#e7eee8"/><text x="143" y="26" fill="#405c49">Accessibility focused</text></g>
+    <g transform="translate(547 72)"><rect width="328" height="40" rx="20" fill="#f5e5e8"/><text x="164" y="26" fill="#7f354e">Temporary local demo data</text></g>
+  </g>
+</svg>
