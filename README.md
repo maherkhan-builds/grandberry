@@ -311,6 +311,12 @@ The build was delivered in five focused milestones:
 
 ---
 
+## 📄 License
+
+Grandberry is available under the [MIT License](./LICENSE).
+
+---
+
 <div align="center">
 
 ## Love, close at hand. 💗
