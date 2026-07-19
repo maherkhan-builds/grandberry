@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { SeniorFamilyCorner } from "@/components/senior-family-corner";
+import { SeniorMemoryMoment } from "@/components/senior-memory-moment";
 
 export default function SeniorPage() {
   return (
@@ -32,6 +33,7 @@ export default function SeniorPage() {
         </section>
 
         <SeniorFamilyCorner />
+        <SeniorMemoryMoment />
       </div>
     </main>
   );
