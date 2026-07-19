@@ -12,6 +12,10 @@
 
 <br />
 
+### [▶ Open the Live Demo](https://grandberry.vercel.app)
+
+<br />
+
 > **Grandberry turns small daily moments into reassuring family connection — without making medical claims.**
 
 </div>
@@ -274,7 +278,7 @@ For the clearest end-to-end demo, use a modern Chromium-based browser and naviga
 | Replace `senior-preview.svg` with a final capture | Replace `family-preview.svg` with a final capture |
 
 **Demo video:** _Add the final submission video link here._<br />
-**Live prototype:** _Add the deployed application link here._
+**Live prototype:** [https://grandberry.vercel.app](https://grandberry.vercel.app)
 
 ---
 
