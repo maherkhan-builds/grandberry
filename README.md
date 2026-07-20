@@ -10,6 +10,8 @@
 
 <img src="./docs/readme/badges.svg" alt="OpenAI Build Week 2026; Built with Codex; Next.js 16.2.10; TypeScript; Accessibility focused; Temporary demo data" width="92%" />
 
+<kbd>🤖 GPT-5.6 · Development model</kbd>
+
 <br />
 
 ### [▶ Open the Live Demo](https://grandberry.vercel.app)
@@ -162,11 +164,19 @@ This prototype:
 
 ## 🤖 How Codex and GPT-5.6 fit the build
 
-Grandberry was developed through an iterative **Codex-assisted Build Week workflow**: milestone planning, scoped implementation, accessibility review, local verification, and intentional Git commits.
+Grandberry was developed using **Codex with GPT-5.6** through an iterative Build Week workflow: milestone planning, scoped implementation, accessibility review, local verification, intentional Git commits, GitHub publishing, and production deployment.
 
-**Important runtime distinction:** the current application does **not** call the OpenAI API and does not include GPT-5.6, transcription, summarization, or model-generated health interpretations. Any future AI capability would require a separate, privacy-reviewed milestone.
+GPT-5.6 contributed during development by helping to:
 
-Before publication, the project creator should confirm the exact model attribution used during the development workflow. No GPT-5.6 runtime badge is included because the repository does not prove that integration.
+- Plan the accessible six-question senior check-in flow.
+- Implement the connected senior and family experiences.
+- Create safe microphone recording, stopping, re-recording, permission handling, and cleanup behavior.
+- Maintain clear privacy boundaries and non-medical safety language.
+- Review responsive design, accessibility, linting, TypeScript, production builds, GitHub publishing, and Vercel deployment.
+
+**Codex Session ID:** `019f75c4-61ab-7731-ba62-ef1eaec7de47`
+
+> **Runtime distinction:** GPT-5.6 was used as the development model inside Codex. It does **not** run inside the deployed Grandberry application. The live prototype does not call the OpenAI API and does not use GPT-5.6 for transcription, summarization, health interpretation, or any other runtime feature.
 
 ---
 
