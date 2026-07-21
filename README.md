@@ -1,338 +1,149 @@
 <div align="center">
 
-<img src="./docs/readme/grandberry-hero.svg" alt="Grandberry — Every day, a little more connected. A warm bridge between a senior and their family." width="100%" />
+![GlowPoint animated header](https://capsule-render.vercel.app/api?type=waving&height=280&color=gradient&customColorList=12,20,24,30&text=GlowPoint&fontColor=ffffff&fontSize=82&fontAlignY=38&desc=Point.%20Glow.%20Create.&descAlignY=60&animation=fadeIn)
 
-# Grandberry
+[![Typing SVG](https://readme-typing-svg.demolab.com?font=Space+Grotesk&weight=700&size=24&pause=900&color=FFB98C&center=true&vCenter=true&width=760&lines=Your+fingertip+is+the+light+source+%E2%9C%A6;Paint+the+real+world+with+light;A+privacy-first+camera+experience)](https://git.io/typing-svg)
 
-### Every day, a little more connected.
+<p><strong>A cinematic camera playground that turns a pointing fingertip into a responsive virtual light.</strong></p>
 
-**A voice-first companion helping older adults check in, stay connected with family, and preserve meaningful memories.**
+![Next.js](https://img.shields.io/badge/Next.js_16-09090D?style=for-the-badge&logo=nextdotjs&logoColor=white)
+![React](https://img.shields.io/badge/React_19-111827?style=for-the-badge&logo=react&logoColor=61DAFB)
+![TypeScript](https://img.shields.io/badge/TypeScript-17131D?style=for-the-badge&logo=typescript&logoColor=7CA9FF)
+![Privacy](https://img.shields.io/badge/Privacy-On_Device-19151F?style=for-the-badge&logo=shield&logoColor=64F5B2)
+![Status](https://img.shields.io/badge/Status-Interactive_Prototype-FF8A7A?style=for-the-badge)
 
-<img src="./docs/readme/badges.svg" alt="OpenAI Build Week 2026; Built with Codex; Next.js 16.2.10; TypeScript; Accessibility focused; Temporary demo data" width="92%" />
-
-<kbd>🤖 GPT-5.6 · Development model</kbd>
-
-<br />
-
-### [▶ Open the Live Demo](https://grandberry.vercel.app)
-
-<br />
-
-> **Grandberry turns small daily moments into reassuring family connection — without making medical claims.**
+[Live Demo](#-live-demo) · [Features](#-what-it-can-do) · [Quick Start](#-run-it-locally) · [How It Works](#-how-it-works)
 
 </div>
 
 ---
 
-## 🌱 The problem
+## ✨ Meet GlowPoint
 
-Older adults and their families often want to feel close without turning every interaction into a status check. A missed routine can create uncertainty, while precious family stories and everyday messages can disappear into busy schedules.
+GlowPoint explores a tiny bit of sci-fi magic: what if pointing at something could light it up?
 
-Grandberry explores a gentler question:
+It wraps a live device-camera experience in a tactile, social-ready interface. Choose a color, shape the beam, tune the softness, and capture the moment—without sending the camera feed to a server. The current release is a polished interactive prototype with a camera-permission flow and a draggable fingertip-light simulation ready for a production hand-landmark model.
 
-> **What if checking in felt less like reporting—and more like being cared for?**
+![GlowPoint social preview](public/og.jpg)
 
----
+## 🔗 Live demo
 
-## 🍓 The Grandberry solution
+> Deployment is being connected. The Vercel URL will appear here as soon as publishing completes.
 
-Grandberry connects one fictional demonstration household—the **Williams family**—through four calm, focused experiences:
+## 💫 What it can do
 
-| 🌤️ Daily routine | 👨‍👩‍👧 Family visibility | 💌 Everyday affection | 🎙️ Living memories |
-|---|---|---|---|
-| A six-question morning check-in | A clear family dashboard and seven-day pattern | Love notes, read-aloud support, and voice replies | Guided voice stories shared with family |
-
-The prototype starts with a simple role choice: **Continue as Senior** or **Continue as Family**. No account setup is needed for the demo.
-
-<div align="center">
-  <img src="./docs/readme/experience-flow.svg" alt="Grandberry flow: choose a role, connect through daily check-ins and family notes, then preserve a voice memory in the temporary demo collection." width="92%" />
-</div>
-
----
-
-## 👵 Senior experience
-
-### A morning flow designed for clarity
-
-- One decision per screen
-- Six structured questions: **sleep, mood, physical comfort, water, first meal, and medication confirmation**
-- Large answer targets, visible progress, Back and Next controls
-- Optional typed detail for “Something else” under physical comfort
-- Review, change-answer, completion, and start-again states
-
-### Connection without complexity
-
-- A large family note with **“Read it to me”** browser speech synthesis
-- A short voice reply using the browser microphone
-- Clear recording, playback, re-record, and send controls
-- Permission-denied and unsupported-browser guidance
-
-<div align="center">
-  <img src="./docs/readme/senior-preview.svg" alt="Stylized placeholder for a future Senior experience screenshot, showing large controls for a morning check-in, family note, and Memory Moment." width="88%" />
-  <br />
-  <sub><strong>Screenshot placeholder:</strong> replace with a polished Senior-view capture before final submission.</sub>
-</div>
-
----
-
-## 🏡 Family experience
-
-The family dashboard presents the fictional senior **Margaret Williams** with seeded demonstration information:
-
-- Today’s status: **Completed, Not yet completed, or Missed**
-- Six reported or confirmed check-in answers
-- Completion time and last meaningful activity
-- A seeded seven-day completion pattern
-- A demo-only **“I’ll follow up”** action
-
-### Silence is a Signal
-
-When the seeded “Missed” state is selected, Grandberry offers a gentle reason to connect:
-
-> Margaret has not completed today’s usual check-in. This may simply mean she is busy or away from the device. Consider sending a note or giving her a call.
-
-It does **not** imply danger from a missed check-in.
-
-### Family Corner
-
-- Write a love note of up to 180 characters
-- Preserve the note exactly as entered
-- Show sender, time, confirmation, and message history
-- Play a senior’s temporary voice reply in the family interface
-
-<div align="center">
-  <img src="./docs/readme/family-preview.svg" alt="Stylized placeholder for a future Family dashboard screenshot, showing check-in status, Family Corner, and Family Memories." width="88%" />
-  <br />
-  <sub><strong>Screenshot placeholder:</strong> replace with a polished Family-view capture before final submission.</sub>
-</div>
-
----
-
-## 🎙️ Memory Moment & Family Memories
-
-Grandberry invites Margaret to answer one exact prompt:
-
-> **What is a family tradition that always makes you smile?**
-
-The senior can:
-
-1. Start a voice story after explicitly granting microphone permission.
-2. Follow a visible timer with a **90-second maximum**.
-3. Stop, play, and record again.
-4. Add the story to the temporary Williams family memory collection.
-
-The family receives a listen-only **Family Memories** view with the prompt, speaker, timestamp, and audio player. A clearly labeled metadata-only **Demo example** contains no fabricated audio.
-
-> [!IMPORTANT]
-> Voice recordings use temporary browser object URLs. Grandberry does not upload, transcribe, analyze, or permanently save them. Refreshing or closing the page may remove them.
-
----
-
-## ♿ Accessibility & inclusive design
-
-Grandberry’s interface is intentionally warm, high-contrast, and low-friction:
-
-- Large text and generous touch targets
-- Semantic headings, fieldsets, labels, and progress information
-- Visible keyboard focus states
-- Text plus icons—never color alone for essential meaning
-- Live status messages and alert roles for recording feedback
-- Responsive layouts tested at approximately **390 × 844**
-- Reduced-motion CSS support
-- Browser speech synthesis for family notes
-- Clear microphone permission and unsupported-browser messages
-
-The goal is not merely a larger interface. It is a **calmer interaction model**.
-
----
-
-## 🛡️ Safety & privacy boundaries
-
-> **Grandberry supports family routines and connection. It does not provide medical advice, diagnosis, emergency monitoring, or guaranteed alerts.**
-
-This prototype:
-
-- Uses **fictional demonstration content** for Margaret Williams, Maya, and the Williams family
-- Uses no production authentication or invitations
-- Uses no database, cloud storage, analytics, or external messaging service
-- Makes no medical interpretation from check-in answers or missed routines
-- Requests microphone access only after the user presses a recording button
-- Keeps love notes, voice replies, and memories in temporary in-memory demo state
-- Does not transmit audio outside the local demo
-
----
-
-## 🤖 How Codex and GPT-5.6 fit the build
-
-Grandberry was developed using **Codex with GPT-5.6** through an iterative Build Week workflow: milestone planning, scoped implementation, accessibility review, local verification, intentional Git commits, GitHub publishing, and production deployment.
-
-GPT-5.6 contributed during development by helping to:
-
-- Plan the accessible six-question senior check-in flow.
-- Implement the connected senior and family experiences.
-- Create safe microphone recording, stopping, re-recording, permission handling, and cleanup behavior.
-- Maintain clear privacy boundaries and non-medical safety language.
-- Review responsive design, accessibility, linting, TypeScript, production builds, GitHub publishing, and Vercel deployment.
-
-**Codex Session ID:** `019f75c4-61ab-7731-ba62-ef1eaec7de47`
-
-> **Runtime distinction:** GPT-5.6 was used as the development model inside Codex. It does **not** run inside the deployed Grandberry application. The live prototype does not call the OpenAI API and does not use GPT-5.6 for transcription, summarization, health interpretation, or any other runtime feature.
-
----
-
-## 🧰 Technology stack
-
-| Layer | Repository-proven technology |
+| Experience | What it feels like |
 |---|---|
-| Framework | **Next.js 16.2.10** App Router |
-| UI | **React 19.2.4** |
-| Language | **TypeScript 5** |
-| Styling | **Tailwind CSS 4** plus global CSS |
-| Voice playback | Browser **SpeechSynthesis API** |
-| Voice recording | Browser **MediaRecorder API** and temporary Blob URLs |
-| State | React state and module-level in-memory stores |
-| Quality | ESLint, TypeScript checking, production build, `git diff --check` |
+| **Live camera mode** | Opens the front camera with a privacy-first permission flow. |
+| **Fingertip glow** | A bright, layered light source with natural-looking bloom and falloff. |
+| **Projected beam** | Toggle a soft directional beam and adjust its width and softness. |
+| **Light lab** | Tune brightness, glow size, beam width, softness, and distance in real time. |
+| **Color carousel** | Jump between warm, cool, yellow, blue, pink, purple, green, and red. |
+| **Custom color** | Pick literally any glow color. Main-character lighting unlocked. |
+| **Spotlight / Ambient** | Switch from a focused beam to a wide, dreamy wash. |
+| **Capture moments** | Photo-flash feedback and short-video recording states. |
+| **Safe fallback** | Camera-denied demo mode keeps every control explorable. |
+| **One-tap reset** | Return the entire light setup to its original look. |
 
-No additional UI component library or backend SDK is installed.
+## 📸 Inside the app
 
----
+<div align="center">
+  <img src="public/glowpoint-demo.jpg" alt="GlowPoint warm fingertip light demo" width="390" />
+  <p><em>A warm fingertip light with believable face and wall illumination.</em></p>
+</div>
 
-## 🗺️ Application routes
+## 🫶 How to use it
 
-| Route | Purpose |
-|---|---|
-| `/` | Role-selection landing page |
-| `/senior` | Senior home, Family Corner, and Memory Moment |
-| `/senior/check-in` | Six-step morning check-in |
-| `/family` | Family dashboard, Family Corner, and Family Memories |
+1. Open GlowPoint on a phone or webcam-enabled computer.
+2. Tap **Use my camera** and allow camera access.
+3. In prototype mode, drag the glowing point to preview smooth tracking.
+4. Swipe through the color carousel or tap **＋** for a custom shade.
+5. Use **Beam**, **Focus/Ambient**, and **Tune** to shape the lighting.
+6. Tap the center shutter for a glow shot or the red control for a short clip.
+7. Hit **↻** whenever you want the original setup back.
 
----
+> Camera access requires HTTPS in production or `localhost` during development. GlowPoint does not upload the camera feed or automatically save captures.
 
-## 🚀 Quick start
+## 🧠 How it works
 
-### Requirements
+```text
+Device camera
+     ↓
+Local video preview
+     ↓
+Fingertip position → smoothed tracking point
+     ↓
+Glow core + bloom + directional beam + scene tint
+     ↓
+Interactive controls → final camera composition
+```
 
-- Node.js compatible with Next.js 16
-- npm
-- A modern browser; microphone features require browser support and permission
+The interface is a client-side React experience. `getUserMedia()` provides the live camera stream, while layered CSS lighting builds the luminous core, bloom, beam, face tint, falloff, and ambient modes. React state connects every color and light parameter to the rendered effect. No backend is required for the current prototype.
 
-### Install and run
+### Production computer-vision path
+
+The next step is an on-device hand-landmark pipeline such as MediaPipe Hand Landmarker:
+
+- Track the index-finger tip landmark in each camera frame.
+- Infer pointing direction from the index MCP/PIP/DIP/tip landmark vector.
+- Apply confidence gating when no hand or unclear pointing is detected.
+- Smooth coordinates with a One Euro or Kalman filter to suppress jitter.
+- Estimate scene depth and masks for more accurate surface-aware lighting.
+- Composite photos and recorded frames through WebGL/WebGPU before local export.
+
+## 🛠️ Built with
+
+- **Next.js 16 App Router** for the application shell and production build
+- **React 19** for interactive camera and lighting state
+- **TypeScript** for predictable controls and browser-media APIs
+- **Tailwind CSS 4 + custom CSS** for responsive glassmorphism and layered light
+- **MediaDevices API** for local camera access
+- **CSS blend modes, masks, gradients, filters, and animation** for the glow engine
+- **Vercel** for HTTPS hosting and camera-safe delivery
+
+## 🚀 Run it locally
 
 ```bash
-git clone <your-grandberry-repository-url>
-cd <your-grandberry-folder>
+git clone https://github.com/maherkhan-builds/grandberry.git
+cd grandberry
 npm install
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
-
-### Verify the project
+Open [http://localhost:3000](http://localhost:3000), then allow camera access. For a production check:
 
 ```bash
-npm run lint
-npx tsc --noEmit
 npm run build
+npm start
 ```
 
-No environment variables or API keys are required for the current prototype.
+## 🔐 Privacy by design
 
----
+- Camera processing stays in the browser whenever possible.
+- The prototype does not upload camera frames.
+- Nothing is saved unless the user explicitly chooses to save it.
+- Denied camera access automatically falls back to an explorable demo.
+- The experience is designed for future fully on-device landmark detection.
 
-## 🧑‍⚖️ Judge testing guide
+## 🗺️ Roadmap
 
-For the clearest end-to-end demo, use a modern Chromium-based browser and navigate using Grandberry’s in-app links so temporary state remains available.
+- [ ] MediaPipe index-fingertip landmark tracking
+- [ ] Confidence-aware hand and pointing messages
+- [ ] One Euro filter for low-latency motion smoothing
+- [ ] WebGL/WebGPU scene relighting and segmentation
+- [ ] Local photo and MediaRecorder video export
+- [ ] Rear-camera switch and mobile PWA install
+- [ ] Accessibility and reduced-motion controls
 
-### 1. Senior morning check-in
+## 🔎 Keywords
 
-1. Select **Continue as Senior**.
-2. Press **Start my morning check-in**.
-3. Complete all six questions.
-4. Review and change one answer.
-5. Finish the check-in.
-
-### 2. Family visibility
-
-1. Return through **Choose another role** and select **Continue as Family**.
-2. Switch among Completed, Not yet completed, and Missed.
-3. Review the seven-day pattern.
-4. In Missed, read **Silence is a Signal** and press **I’ll follow up**.
-
-### 3. Love note and voice reply
-
-1. In Family Corner, send Margaret a love note.
-2. Navigate in-app to Senior.
-3. Read the note or use **Read it to me**.
-4. Record, stop, play, re-record, and send a voice reply.
-5. Navigate in-app to Family and play Margaret’s reply.
-
-### 4. Memory Moment
-
-1. On Senior, scroll to **Memory Moment**.
-2. Press **Start my story** and grant microphone permission.
-3. Record briefly, stop, play, then record again.
-4. Press **Add to family memories**.
-5. Navigate in-app to Family and play the Shared memory.
-6. Confirm the **Demo example** remains labeled and has no fabricated audio.
-
-> [!TIP]
-> Refresh resets temporary demo state. This is expected behavior for the Build Week prototype.
-
----
-
-## 🖼️ Screenshots & demo
-
-| Senior experience | Family experience |
-|---|---|
-| Morning check-in, Family Corner, and Memory Moment | Dashboard states, connection history, and Family Memories |
-| Replace `senior-preview.svg` with a final capture | Replace `family-preview.svg` with a final capture |
-
-**Demo video:** _Add the final submission video link here._<br />
-**Live prototype:** [https://grandberry.vercel.app](https://grandberry.vercel.app)
-
----
-
-## 🧪 Current prototype limitations
-
-- One seeded fictional household; no production accounts or invitations
-- Check-in answers are local component state and do not populate the family dashboard
-- Family dashboard wellness data is seeded demonstration data
-- Notes, replies, and memories are temporary in-memory state
-- Refreshing or closing may reset messages and audio
-- No database, Supabase, authentication, notifications, analytics, or cloud storage
-- No OpenAI API, GPT runtime feature, transcription, or AI interpretation
-- No SMS, WhatsApp, email, or external messaging
-- Browser voice capabilities vary; microphone permission is required for recording
-- The 90-second auto-stop, deny flow, keyboard-only flow, 200% zoom, and screen-reader announcements should receive final manual verification before submission
-
----
-
-## ✨ OpenAI Build Week 2026
-
-Grandberry was created as an **OpenAI Build Week 2026** prototype around a simple idea: technology for everyday life can help families feel present without replacing human care or connection.
-
-The build was delivered in five focused milestones:
-
-1. Visual foundation and role selection
-2. Accessible senior morning check-in
-3. Family well-being dashboard
-4. Love notes and voice replies
-5. Voice Memory Moments and Family Memories
-
----
-
-## 📄 License
-
-Grandberry is available under the [MIT License](./LICENSE).
+`computer vision` · `hand tracking` · `finger tracking` · `index fingertip detection` · `MediaPipe` · `camera app` · `real-time lighting` · `virtual light` · `augmented reality` · `AR camera` · `WebGL` · `WebGPU` · `Next.js` · `React` · `TypeScript` · `glassmorphism` · `Gen Z UI` · `creative technology` · `privacy-first` · `on-device AI` · `social camera` · `interactive lighting`
 
 ---
 
 <div align="center">
-
-## Love, close at hand. 💗
-
-**Built for quieter mornings, warmer check-ins, and stories worth hearing again.**
-
-<sub>Grandberry · A fictional demonstration household · Temporary local demo data · No medical or emergency monitoring</sub>
-
+  <h3>Built for the moment when your finger becomes the sun ☀️</h3>
+  <p>If GlowPoint sparks an idea, drop the repo a ⭐</p>
 </div>
+
+![GlowPoint footer](https://capsule-render.vercel.app/api?type=waving&height=150&section=footer&color=gradient&customColorList=12,20,24,30&animation=twinkling)

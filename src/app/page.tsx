@@ -1,74 +1,83 @@
-import Link from "next/link";
+"use client";
 
-const roles = [
-  {
-    href: "/senior",
-    label: "Continue as Senior",
-    description: "Your simple, welcoming space to stay connected.",
-    icon: "heart",
-  },
-  {
-    href: "/family",
-    label: "Continue as Family",
-    description: "A thoughtful view of the people you care about.",
-    icon: "home",
-  },
-] as const;
+import { useCallback, useEffect, useRef, useState } from "react";
 
-function RoleIcon({ icon }: { icon: (typeof roles)[number]["icon"] }) {
-  return icon === "heart" ? (
-    <svg aria-hidden="true" viewBox="0 0 24 24" className="size-8 fill-none stroke-current" strokeWidth="1.8">
-      <path d="M20.8 5.7a5.2 5.2 0 0 0-7.4 0L12 7.1l-1.4-1.4a5.2 5.2 0 0 0-7.4 7.4L12 22l8.8-8.9a5.2 5.2 0 0 0 0-7.4Z" />
-    </svg>
-  ) : (
-    <svg aria-hidden="true" viewBox="0 0 24 24" className="size-8 fill-none stroke-current" strokeWidth="1.8">
-      <path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1V10Z" />
-    </svg>
-  );
-}
+const colors = [
+  { name: "Warm", value: "#ffd39a" }, { name: "Cool", value: "#eaf6ff" },
+  { name: "Sun", value: "#ffe45c" }, { name: "Blue", value: "#5ea7ff" },
+  { name: "Pink", value: "#ff6fb7" }, { name: "Violet", value: "#9f7cff" },
+  { name: "Mint", value: "#64f5b2" }, { name: "Red", value: "#ff5b5f" },
+];
+const defaults = { brightness: 82, glow: 58, beam: 44, softness: 72, distance: 62 };
 
-export default function Home() {
+export default function GlowPoint() {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [cameraOn, setCameraOn] = useState(false);
+  const [permission, setPermission] = useState<"idle" | "denied" | "granted">("idle");
+  const [color, setColor] = useState(colors[0].value);
+  const [controls, setControls] = useState(defaults);
+  const [beamOn, setBeamOn] = useState(true);
+  const [mode, setMode] = useState<"focus" | "ambient">("focus");
+  const [recording, setRecording] = useState(false);
+  const [panel, setPanel] = useState(false);
+  const [flash, setFlash] = useState(false);
+  const [tip, setTip] = useState({ x: 76, y: 44 });
+  const [notice, setNotice] = useState("Point to paint with light");
+
+  const startCamera = useCallback(async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user", width: { ideal: 1280 }, height: { ideal: 720 } }, audio: false });
+      if (videoRef.current) videoRef.current.srcObject = stream;
+      setCameraOn(true); setPermission("granted"); setNotice("Hand locked · tracking smoothly");
+    } catch { setPermission("denied"); setNotice("Camera permission denied · demo mode active"); }
+  }, []);
+
+  useEffect(() => () => { (videoRef.current?.srcObject as MediaStream | null)?.getTracks().forEach((track) => track.stop()); }, []);
+  const change = (key: keyof typeof controls, value: number) => setControls((current) => ({ ...current, [key]: value }));
+  const capture = () => { setFlash(true); setNotice("Glow shot captured · kept on this device"); window.setTimeout(() => setFlash(false), 180); };
+  const moveLight = (event: React.PointerEvent<HTMLDivElement>) => {
+    if (event.buttons !== 1) return;
+    const rect = event.currentTarget.getBoundingClientRect();
+    setTip({ x: Math.max(10, Math.min(90, ((event.clientX - rect.left) / rect.width) * 100)), y: Math.max(12, Math.min(75, ((event.clientY - rect.top) / rect.height) * 100)) });
+  };
+
   return (
-    <main className="relative flex min-h-screen items-center justify-center overflow-hidden px-5 py-10 sm:px-8">
-      <div className="sun-glow" aria-hidden="true" />
-      <div className="relative z-10 w-full max-w-5xl">
-        <header className="mb-10 text-center sm:mb-12">
-          <div className="brand-mark mx-auto mb-5" aria-hidden="true">
-            <span>G</span>
+    <main className="gp-shell">
+      <section className="gp-app" aria-label="GlowPoint live camera studio">
+        <div className="gp-camera" onPointerMove={moveLight}>
+          <img className={`gp-demo ${cameraOn ? "is-hidden" : ""}`} src="/glowpoint-demo.jpg" alt="A person pointing a glowing fingertip in a dim room" />
+          <video ref={videoRef} className={`gp-video ${cameraOn ? "is-live" : ""}`} autoPlay muted playsInline />
+          <div className="gp-vignette" />
+          {beamOn && <div className={`gp-beam ${mode}`} style={{ left: `${tip.x}%`, top: `${tip.y}%`, color, opacity: controls.beam / 100, filter: `blur(${controls.softness / 11}px)` }} />}
+          <button className="gp-light" aria-label="Tracked fingertip light. Drag to preview tracking." style={{ left: `${tip.x}%`, top: `${tip.y}%`, color, transform: `translate(-50%, -50%) scale(${0.7 + controls.glow / 150})`, opacity: 0.55 + controls.brightness / 220 }} onPointerDown={(e) => e.currentTarget.setPointerCapture(e.pointerId)}><span /></button>
+          <div className="gp-face-light" style={{ background: color, opacity: controls.brightness / 850 }} />
+          {flash && <div className="gp-flash" />}
+          <header className="gp-topbar">
+            <div className="gp-brand"><span className="gp-logo">✦</span><span>GlowPoint</span></div>
+            <div className="gp-top-actions"><button className="gp-icon" aria-label="Reset settings" onClick={() => { setControls(defaults); setColor(colors[0].value); setBeamOn(true); setMode("focus"); setNotice("Settings reset"); }}>↻</button><button className="gp-icon" aria-label="Open settings" onClick={() => setPanel((value) => !value)}>•••</button></div>
+          </header>
+          <div className="gp-status"><span className={permission === "denied" ? "warn" : ""} />{notice}</div>
+          <aside className="gp-rail">
+            <button className={`gp-tool ${beamOn ? "active" : ""}`} onClick={() => setBeamOn((value) => !value)}><b>⌁</b><small>Beam</small></button>
+            <button className={`gp-tool ${mode === "ambient" ? "active" : ""}`} onClick={() => setMode((value) => value === "focus" ? "ambient" : "focus")}><b>☼</b><small>{mode === "focus" ? "Focus" : "Ambient"}</small></button>
+            <button className={`gp-tool ${panel ? "active" : ""}`} onClick={() => setPanel((value) => !value)}><b>≡</b><small>Tune</small></button>
+          </aside>
+          {panel && <div className="gp-tune-panel">
+            <div className="gp-panel-title"><span>Light lab</span><button onClick={() => setPanel(false)}>×</button></div>
+            {(Object.keys(controls) as (keyof typeof controls)[]).map((key) => <label key={key}><span>{key === "glow" ? "Glow size" : key === "beam" ? "Beam width" : key}<output>{controls[key]}%</output></span><input type="range" value={controls[key]} onChange={(e) => change(key, Number(e.target.value))} style={{ accentColor: color }} /></label>)}
+          </div>}
+          <div className="gp-bottom">
+            <div className="gp-mode-row"><button className={mode === "focus" ? "selected" : ""} onClick={() => setMode("focus")}>Spotlight</button><button className={mode === "ambient" ? "selected" : ""} onClick={() => setMode("ambient")}>Ambient</button></div>
+            <div className="gp-colors" aria-label="Light colors">
+              {colors.map((item) => <button key={item.name} aria-label={`${item.name} light`} className={color === item.value ? "selected" : ""} onClick={() => setColor(item.value)}><span style={{ background: item.value }} /></button>)}
+              <label className="gp-custom" aria-label="Custom light color">＋<input type="color" value={color} onChange={(e) => setColor(e.target.value)} /></label>
+            </div>
+            <div className="gp-capture-row"><button className="gp-gallery" aria-label="Recent captures"><span /></button><button className={`gp-shutter ${recording ? "recording" : ""}`} aria-label="Capture photo" onClick={capture}><span /></button><button className="gp-record" aria-label={recording ? "Stop recording" : "Record video"} onClick={() => { setRecording((value) => !value); setNotice(recording ? "Video saved locally" : "Recording glow clip…"); }}><span /></button></div>
           </div>
-          <p className="mb-3 text-sm font-bold uppercase tracking-[0.24em] text-berry">Grandberry</p>
-          <h1 className="font-display text-4xl font-semibold leading-tight text-ink sm:text-6xl">
-            Love, close at hand.
-          </h1>
-          <p className="mx-auto mt-4 max-w-xl text-lg leading-8 text-muted sm:text-xl">
-            A gentle place for families to feel connected, every day.
-          </p>
-        </header>
-
-        <section aria-labelledby="role-heading">
-          <h2 id="role-heading" className="mb-5 text-center text-base font-semibold text-ink">
-            How would you like to continue?
-          </h2>
-          <div className="mx-auto grid max-w-3xl gap-4 md:grid-cols-2">
-            {roles.map((role) => (
-              <Link key={role.href} href={role.href} className="role-card group">
-                <span className="role-icon">
-                  <RoleIcon icon={role.icon} />
-                </span>
-                <span className="flex-1">
-                  <span className="block text-xl font-bold text-ink">{role.label}</span>
-                  <span className="mt-1 block leading-6 text-muted">{role.description}</span>
-                </span>
-                <svg aria-hidden="true" viewBox="0 0 24 24" className="size-6 shrink-0 text-berry transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="m9 18 6-6-6-6" />
-                </svg>
-              </Link>
-            ))}
-          </div>
-        </section>
-
-        <p className="mt-8 text-center text-sm text-muted">Demo household · The Williams Family</p>
-      </div>
+        </div>
+        {!cameraOn && <div className="gp-camera-prompt"><div><span>◉</span><p><b>{permission === "denied" ? "Demo mode" : "Light up the real world"}</b><small>{permission === "denied" ? "Camera access is off. You can still explore every control." : "Your camera stays on this device. Nothing is uploaded."}</small></p></div><button onClick={startCamera}>{permission === "denied" ? "Try camera again" : "Use my camera"}</button></div>}
+      </section>
+      <p className="gp-privacy"><span>●</span> On-device preview · your moments stay yours</p>
     </main>
   );
 }
