@@ -13,6 +13,7 @@ const defaults = { brightness: 82, glow: 58, beam: 44, softness: 72, distance: 6
 
 export default function GlowPoint() {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const cameraRef = useRef<HTMLDivElement>(null);
   const trackerRef = useRef<HandLandmarker | null>(null);
   const frameRef = useRef<number | null>(null);
   const lastVideoTimeRef = useRef(-1);
@@ -63,7 +64,7 @@ export default function GlowPoint() {
           const result = tracker.detectForVideo(activeVideo, performance.now());
           const landmarks = result.landmarks[0];
 
-          if (landmarks) {
+          if (landmarks && cameraRef.current) {
             const indexTip = landmarks[8];
             const indexPip = landmarks[6];
             const indexMcp = landmarks[5];
@@ -71,15 +72,34 @@ export default function GlowPoint() {
             const fingerLength = Math.hypot(indexTip.x - indexMcp.x, indexTip.y - indexMcp.y);
             const pointingClearly = fingerLength > palmWidth * 0.72;
 
-            const next = { x: (1 - indexTip.x) * 100, y: indexTip.y * 100 };
+            const cameraRect = cameraRef.current.getBoundingClientRect();
+            const videoWidth = activeVideo.videoWidth || cameraRect.width;
+            const videoHeight = activeVideo.videoHeight || cameraRect.height;
+            const coverScale = Math.max(cameraRect.width / videoWidth, cameraRect.height / videoHeight);
+            const renderedWidth = videoWidth * coverScale;
+            const renderedHeight = videoHeight * coverScale;
+            const cropX = (cameraRect.width - renderedWidth) / 2;
+            const cropY = (cameraRect.height - renderedHeight) / 2;
+            const mapToPreview = (point: { x: number; y: number }) => ({
+              x: cropX + (1 - point.x) * renderedWidth,
+              y: cropY + point.y * renderedHeight,
+            });
+
+            const mappedTip = mapToPreview(indexTip);
+            const mappedPip = mapToPreview(indexPip);
+            const vectorX = mappedTip.x - mappedPip.x;
+            const vectorY = mappedTip.y - mappedPip.y;
+            const vectorLength = Math.max(1, Math.hypot(vectorX, vectorY));
+            const unitX = vectorX / vectorLength;
+            const unitY = vectorY / vectorLength;
+            const magicTip = { x: mappedTip.x + unitX * 7, y: mappedTip.y + unitY * 7 };
+            const next = { x: (magicTip.x / cameraRect.width) * 100, y: (magicTip.y / cameraRect.height) * 100 };
             const previous = smoothTipRef.current;
-            const smoothed = { x: previous.x + (next.x - previous.x) * 0.34, y: previous.y + (next.y - previous.y) * 0.34 };
+            const smoothed = { x: previous.x + (next.x - previous.x) * 0.48, y: previous.y + (next.y - previous.y) * 0.48 };
             smoothTipRef.current = smoothed;
             setTip(smoothed);
 
-            const dx = -(indexTip.x - indexPip.x);
-            const dy = indexTip.y - indexPip.y;
-            setBeamAngle(Math.atan2(dy, dx) * (180 / Math.PI));
+            setBeamAngle(Math.atan2(vectorY, vectorX) * (180 / Math.PI));
             setHandVisible(true);
             setNotice(pointingClearly ? "Index fingertip locked · move your hand" : "Straighten your index finger to aim the beam");
           } else {
@@ -109,13 +129,13 @@ export default function GlowPoint() {
   return (
     <main className="gp-shell">
       <section className="gp-app" aria-label="GlowPoint live camera studio">
-        <div className="gp-camera" onPointerMove={moveLight}>
+        <div ref={cameraRef} className="gp-camera" onPointerMove={moveLight}>
           <img className={`gp-demo ${cameraOn ? "is-hidden" : ""}`} src="/glowpoint-demo.jpg" alt="A person pointing a glowing fingertip in a dim room" />
           <video ref={videoRef} className={`gp-video ${cameraOn ? "is-live" : ""}`} autoPlay muted playsInline />
           <div className="gp-vignette" />
-          {beamOn && (!cameraOn || handVisible) && <div className={`gp-beam ${mode}`} style={{ left: `${tip.x}%`, top: `${tip.y}%`, color, opacity: controls.beam / 100, filter: `blur(${controls.softness / 11}px)`, transform: `translate(-2%, -50%) rotate(${beamAngle}deg)` }} />}
+          {beamOn && (!cameraOn || handVisible) && <div className={`gp-beam ${mode}`} style={{ left: `${tip.x}%`, top: `${tip.y}%`, width: `${22 + controls.distance * 0.48}%`, height: `${7 + controls.beam * 0.13}%`, color, opacity: 0.12 + controls.brightness / 500, filter: `blur(${2 + controls.softness / 25}px)`, transform: `translate(0, -50%) rotate(${beamAngle}deg)` }} />}
           {(!cameraOn || handVisible) && <button className="gp-light" aria-label="Tracked index fingertip light" style={{ left: `${tip.x}%`, top: `${tip.y}%`, color, transform: `translate(-50%, -50%) scale(${0.7 + controls.glow / 150})`, opacity: 0.55 + controls.brightness / 220 }}><span /></button>}
-          <div className="gp-face-light" style={{ background: color, opacity: controls.brightness / 850 }} />
+          {(!cameraOn || handVisible) && <div className="gp-face-light" style={{ background: color, opacity: controls.brightness / 1500, WebkitMaskImage: `radial-gradient(circle at ${tip.x}% ${tip.y}%, black 0%, black 4%, transparent ${18 + controls.glow / 5}%)`, maskImage: `radial-gradient(circle at ${tip.x}% ${tip.y}%, black 0%, black 4%, transparent ${18 + controls.glow / 5}%)` }} />}
           {flash && <div className="gp-flash" />}
           <header className="gp-topbar">
             <div className="gp-brand"><span className="gp-logo">✦</span><span>GlowPoint</span></div>
