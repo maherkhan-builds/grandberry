@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://grandberry.vercel.app"),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://glowpoint.vercel.app"),
   title: "GlowPoint · Point. Glow. Create.",
   description: "Turn your fingertip into a cinematic light source, live and on-device.",
   openGraph: {
