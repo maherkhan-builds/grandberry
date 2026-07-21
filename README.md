@@ -12,7 +12,7 @@
 ![Privacy](https://img.shields.io/badge/Privacy-On_Device-19151F?style=for-the-badge&logo=shield&logoColor=64F5B2)
 ![Status](https://img.shields.io/badge/Status-Interactive_Prototype-FF8A7A?style=for-the-badge)
 
-[Live Demo](#-live-demo) · [Features](#-what-it-can-do) · [Quick Start](#-run-it-locally) · [How It Works](#-how-it-works)
+[Live Demo](https://grandberry.vercel.app) · [Features](#-what-it-can-do) · [Quick Start](#-run-it-locally) · [How It Works](#-how-it-works)
 
 </div>
 
@@ -28,7 +28,9 @@ It wraps a live device-camera experience in a tactile, social-ready interface. C
 
 ## 🔗 Live demo
 
-> Deployment is being connected. The Vercel URL will appear here as soon as publishing completes.
+### **[Launch GlowPoint →](https://grandberry.vercel.app)**
+
+The production experience is hosted on Vercel with HTTPS enabled for browser camera access.
 
 ## 💫 What it can do
 
