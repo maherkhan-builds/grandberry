@@ -22,7 +22,7 @@
 
 GlowPoint explores a tiny bit of sci-fi magic: what if pointing at something could light it up?
 
-It wraps a live device-camera experience in a tactile, social-ready interface. Choose a color, shape the beam, tune the softness, and capture the moment—without sending the camera feed to a server. The current release is a polished interactive prototype with a camera-permission flow and a draggable fingertip-light simulation ready for a production hand-landmark model.
+It wraps a live device-camera experience in a tactile, social-ready interface. Choose a color, shape the beam, tune the softness, and capture the moment—without sending the camera feed to a server. The current release uses Google MediaPipe in the browser to detect 21 hand landmarks, attach the glow to index landmark 8, and aim the beam from the index-finger joint toward the fingertip.
 
 ![GlowPoint social preview](public/og.jpg)
 
@@ -58,7 +58,7 @@ The production experience is hosted on Vercel with HTTPS enabled for browser cam
 
 1. Open GlowPoint on a phone or webcam-enabled computer.
 2. Tap **Use my camera** and allow camera access.
-3. In prototype mode, drag the glowing point to preview smooth tracking.
+3. Hold one hand in frame and point your index finger—the glow follows the real fingertip.
 4. Swipe through the color carousel or tap **＋** for a custom shade.
 5. Use **Beam**, **Focus/Ambient**, and **Tune** to shape the lighting.
 6. Tap the center shutter for a glow shot or the red control for a short clip.
@@ -80,18 +80,16 @@ Glow core + bloom + directional beam + scene tint
 Interactive controls → final camera composition
 ```
 
-The interface is a client-side React experience. `getUserMedia()` provides the live camera stream, while layered CSS lighting builds the luminous core, bloom, beam, face tint, falloff, and ambient modes. React state connects every color and light parameter to the rendered effect. No backend is required for the current prototype.
+The interface is a client-side React experience. `getUserMedia()` provides the live camera stream, while MediaPipe Hand Landmarker runs locally in `VIDEO` mode. A smoothing filter stabilizes index landmark 8, and the vector from landmark 6 to landmark 8 controls beam direction. Layered CSS lighting builds the luminous core, bloom, beam, face tint, falloff, and ambient modes. No backend is required.
 
-### Production computer-vision path
+### Computer-vision pipeline
 
-The next step is an on-device hand-landmark pipeline such as MediaPipe Hand Landmarker:
-
-- Track the index-finger tip landmark in each camera frame.
-- Infer pointing direction from the index MCP/PIP/DIP/tip landmark vector.
+- Detect one hand and its 21 normalized landmarks in each camera frame.
+- Track the index-finger tip and infer direction from the PIP-to-tip vector.
 - Apply confidence gating when no hand or unclear pointing is detected.
-- Smooth coordinates with a One Euro or Kalman filter to suppress jitter.
-- Estimate scene depth and masks for more accurate surface-aware lighting.
-- Composite photos and recorded frames through WebGL/WebGPU before local export.
+- Smooth coordinates to suppress jitter while preserving responsive motion.
+- Mirror the coordinates to match the front-camera preview.
+- Keep inference, video, and interaction data on the device.
 
 ## 🛠️ Built with
 

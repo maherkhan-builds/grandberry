@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import type { HandLandmarker } from "@mediapipe/tasks-vision";
 
 const colors = [
   { name: "Warm", value: "#ffd39a" }, { name: "Cool", value: "#eaf6ff" },
@@ -12,6 +13,10 @@ const defaults = { brightness: 82, glow: 58, beam: 44, softness: 72, distance: 6
 
 export default function GlowPoint() {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const trackerRef = useRef<HandLandmarker | null>(null);
+  const frameRef = useRef<number | null>(null);
+  const lastVideoTimeRef = useRef(-1);
+  const smoothTipRef = useRef({ x: 76, y: 44 });
   const [cameraOn, setCameraOn] = useState(false);
   const [permission, setPermission] = useState<"idle" | "denied" | "granted">("idle");
   const [color, setColor] = useState(colors[0].value);
@@ -22,21 +27,81 @@ export default function GlowPoint() {
   const [panel, setPanel] = useState(false);
   const [flash, setFlash] = useState(false);
   const [tip, setTip] = useState({ x: 76, y: 44 });
+  const [beamAngle, setBeamAngle] = useState(-19);
+  const [handVisible, setHandVisible] = useState(false);
   const [notice, setNotice] = useState("Point to paint with light");
 
   const startCamera = useCallback(async () => {
     try {
+      setNotice("Loading on-device hand tracking…");
       const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user", width: { ideal: 1280 }, height: { ideal: 720 } }, audio: false });
-      if (videoRef.current) videoRef.current.srcObject = stream;
-      setCameraOn(true); setPermission("granted"); setNotice("Hand locked · tracking smoothly");
+      const video = videoRef.current;
+      if (!video) return;
+      video.srcObject = stream;
+      await video.play();
+
+      const { FilesetResolver, HandLandmarker } = await import("@mediapipe/tasks-vision");
+      const vision = await FilesetResolver.forVisionTasks("/mediapipe-wasm");
+      trackerRef.current = await HandLandmarker.createFromOptions(vision, {
+        baseOptions: { modelAssetPath: "/models/hand_landmarker.task", delegate: "GPU" },
+        runningMode: "VIDEO",
+        numHands: 1,
+        minHandDetectionConfidence: 0.55,
+        minHandPresenceConfidence: 0.55,
+        minTrackingConfidence: 0.55,
+      });
+
+      setCameraOn(true); setPermission("granted"); setNotice("Show one hand and point your index finger");
+
+      const track = () => {
+        const activeVideo = videoRef.current;
+        const tracker = trackerRef.current;
+        if (!activeVideo || !tracker) return;
+
+        if (activeVideo.readyState >= 2 && activeVideo.currentTime !== lastVideoTimeRef.current) {
+          lastVideoTimeRef.current = activeVideo.currentTime;
+          const result = tracker.detectForVideo(activeVideo, performance.now());
+          const landmarks = result.landmarks[0];
+
+          if (landmarks) {
+            const indexTip = landmarks[8];
+            const indexPip = landmarks[6];
+            const indexMcp = landmarks[5];
+            const palmWidth = Math.hypot(landmarks[5].x - landmarks[17].x, landmarks[5].y - landmarks[17].y);
+            const fingerLength = Math.hypot(indexTip.x - indexMcp.x, indexTip.y - indexMcp.y);
+            const pointingClearly = fingerLength > palmWidth * 0.72;
+
+            const next = { x: (1 - indexTip.x) * 100, y: indexTip.y * 100 };
+            const previous = smoothTipRef.current;
+            const smoothed = { x: previous.x + (next.x - previous.x) * 0.34, y: previous.y + (next.y - previous.y) * 0.34 };
+            smoothTipRef.current = smoothed;
+            setTip(smoothed);
+
+            const dx = -(indexTip.x - indexPip.x);
+            const dy = indexTip.y - indexPip.y;
+            setBeamAngle(Math.atan2(dy, dx) * (180 / Math.PI));
+            setHandVisible(true);
+            setNotice(pointingClearly ? "Index fingertip locked · move your hand" : "Straighten your index finger to aim the beam");
+          } else {
+            setHandVisible(false);
+            setNotice("No hand detected · hold one hand inside the frame");
+          }
+        }
+        frameRef.current = requestAnimationFrame(track);
+      };
+      frameRef.current = requestAnimationFrame(track);
     } catch { setPermission("denied"); setNotice("Camera permission denied · demo mode active"); }
   }, []);
 
-  useEffect(() => () => { (videoRef.current?.srcObject as MediaStream | null)?.getTracks().forEach((track) => track.stop()); }, []);
+  useEffect(() => () => {
+    if (frameRef.current !== null) cancelAnimationFrame(frameRef.current);
+    trackerRef.current?.close();
+    (videoRef.current?.srcObject as MediaStream | null)?.getTracks().forEach((track) => track.stop());
+  }, []);
   const change = (key: keyof typeof controls, value: number) => setControls((current) => ({ ...current, [key]: value }));
   const capture = () => { setFlash(true); setNotice("Glow shot captured · kept on this device"); window.setTimeout(() => setFlash(false), 180); };
   const moveLight = (event: React.PointerEvent<HTMLDivElement>) => {
-    if (event.buttons !== 1) return;
+    if (cameraOn || event.buttons !== 1) return;
     const rect = event.currentTarget.getBoundingClientRect();
     setTip({ x: Math.max(10, Math.min(90, ((event.clientX - rect.left) / rect.width) * 100)), y: Math.max(12, Math.min(75, ((event.clientY - rect.top) / rect.height) * 100)) });
   };
@@ -48,8 +113,8 @@ export default function GlowPoint() {
           <img className={`gp-demo ${cameraOn ? "is-hidden" : ""}`} src="/glowpoint-demo.jpg" alt="A person pointing a glowing fingertip in a dim room" />
           <video ref={videoRef} className={`gp-video ${cameraOn ? "is-live" : ""}`} autoPlay muted playsInline />
           <div className="gp-vignette" />
-          {beamOn && <div className={`gp-beam ${mode}`} style={{ left: `${tip.x}%`, top: `${tip.y}%`, color, opacity: controls.beam / 100, filter: `blur(${controls.softness / 11}px)` }} />}
-          <button className="gp-light" aria-label="Tracked fingertip light. Drag to preview tracking." style={{ left: `${tip.x}%`, top: `${tip.y}%`, color, transform: `translate(-50%, -50%) scale(${0.7 + controls.glow / 150})`, opacity: 0.55 + controls.brightness / 220 }} onPointerDown={(e) => e.currentTarget.setPointerCapture(e.pointerId)}><span /></button>
+          {beamOn && (!cameraOn || handVisible) && <div className={`gp-beam ${mode}`} style={{ left: `${tip.x}%`, top: `${tip.y}%`, color, opacity: controls.beam / 100, filter: `blur(${controls.softness / 11}px)`, transform: `translate(-2%, -50%) rotate(${beamAngle}deg)` }} />}
+          {(!cameraOn || handVisible) && <button className="gp-light" aria-label="Tracked index fingertip light" style={{ left: `${tip.x}%`, top: `${tip.y}%`, color, transform: `translate(-50%, -50%) scale(${0.7 + controls.glow / 150})`, opacity: 0.55 + controls.brightness / 220 }}><span /></button>}
           <div className="gp-face-light" style={{ background: color, opacity: controls.brightness / 850 }} />
           {flash && <div className="gp-flash" />}
           <header className="gp-topbar">
