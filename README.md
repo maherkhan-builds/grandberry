@@ -1,5 +1,9 @@
 <div align="center">
 
+![Grandberry animated header](https://capsule-render.vercel.app/api?type=waving&height=280&color=gradient&customColorList=12,20,24,30&text=Grandberry&fontColor=ffffff&fontSize=82&fontAlignY=38&desc=Every%20day%2C%20a%20little%20more%20connected.&descAlignY=60&animation=fadeIn)
+
+[![Typing SVG](https://readme-typing-svg.demolab.com?font=Space+Grotesk&weight=700&size=24&pause=900&color=FFB98C&center=true&vCenter=true&width=760&lines=Every+day%2C+a+little+more+connected.;A+voice-first+companion+for+seniors+%26+family.;Love%2C+close+at+hand.)](https://git.io/typing-svg)
+
 <img src="./docs/readme/grandberry-hero.svg" alt="Grandberry — Every day, a little more connected. A warm bridge between a senior and their family." width="100%" />
 
 # Grandberry
@@ -9,6 +13,12 @@
 **A voice-first companion helping older adults check in, stay connected with family, and preserve meaningful memories.**
 
 <img src="./docs/readme/badges.svg" alt="OpenAI Build Week 2026; Built with Codex; Next.js 16.2.10; TypeScript; Accessibility focused; Temporary demo data" width="92%" />
+
+![Next.js](https://img.shields.io/badge/Next.js-16.2.10-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
+![React](https://img.shields.io/badge/React-19.2.4-61DAFB?style=for-the-badge&logo=react&logoColor=black)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)
 
 <kbd>🤖 GPT-5.6 · Development model</kbd>
 
@@ -336,3 +346,5 @@ Grandberry is available under the [MIT License](./LICENSE).
 <sub>Grandberry · A fictional demonstration household · Temporary local demo data · No medical or emergency monitoring</sub>
 
 </div>
+
+![Grandberry footer](https://capsule-render.vercel.app/api?type=waving&height=150&section=footer&color=gradient&customColorList=12,20,24,30&animation=twinkling)
